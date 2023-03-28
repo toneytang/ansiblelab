@@ -1,0 +1,24 @@
+- name: Install Jenkins
+ host: all
+ become: yes
+ vars:
+    ansible_ssh_private_key_file: /path/to/pem/file.pem
+    ansible_user: ubuntu
+ tasks:
+   - name: Add Jenkins repository key
+     apt_key:
+       url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+       state: present
+   - name: Add Jenkins repository
+     apt_repository:
+       repo: deb https://pkg.jenkins.io/debian-stable binary/
+       update_cache: yes
+       state: present
+   - name: Install Java
+     apt:
+       name: openjdk-8-jdk
+       state: present
+   - name: Install Jenkins
+     apt:
+       name: jenkins
+       state: present
